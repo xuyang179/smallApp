@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{
+            padding:0;
+            margin:0;
+        }
+        #container{
+            /*overflow:hidden;*/
+            position: relative;
+        }
+        .box{
+            padding:5px;
+            float: left;
+        }
+        .box-img{
+            padding:5px;
+            border:1px solid #333;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+        }
+        .box-img img{
+            width:200px;
+            height:auto;
+            vertical-align: bottom;
+            transition: 1s;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div class="box">
+            <div class="box-img">
+                <img src="images/five/1.jpg" />
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="images/five/2.jpg" />
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="images/five/3.jpg" />
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="images/five/4.jpg" />
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="images/five/5.jpg" />
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="images/five/6.jpg" />
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="images/five/7.jpg" />
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="images/five/1.jpg" />
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="images/five/2.jpg" />
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="images/five/3.jpg" />
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="images/five/4.jpg" />
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="images/five/5.jpg" />
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="images/five/6.jpg" />
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="images/five/7.jpg" />
+            </div>
+        </div>
+    </div>
+    <script>
+        window.onload = function(){
+
+            imgLocation("container","box");
+            var imgData={"data":[{"src":"2.jpg"},{"src":"9.jpg"},{"src":"4.jpg"},
+                {"src":"6.jpg"},{"src":"8.jpg"},{"src":"10.jpg"},
+                {"src":"14.jpg"}]};
+            window.onscroll=function(){
+                if(checkFlag()){
+                    var cparent=document.getElementById("container");
+                    var flag=document.createDocumentFragment();
+                    for(var i= 0,len=imgData.data.length;i<len;i++){
+                        var box=document.createElement('div');
+                        box.className='box';
+                        flag.appendChild(box);
+                        var imgBox=document.createElement('div');
+                        imgBox.className='box-img';
+                        box.appendChild(imgBox);
+                        var img=document.createElement('img');
+                        img.style.cssText="opacity:0;transform:scale(0)";
+                        img.src="images/five/"+imgData.data[i].src+'';
+                        imgBox.appendChild(img);
+                        (function(img){
+                            setTimeout(function(){
+                                img.style.cssText="opacity:1;transform:scale(1)";
+                            },100)
+                        })(img)
+
+
+                    }
+                    cparent.appendChild(flag);
+                    imgLocation("container","box");
+                }
+
+
+
+            }
+        };
+
+        function checkFlag(){
+            var cparent=document.getElementById("container");
+            var ccontent =getChildElement(cparent,'box');
+            var scrollTop=document.documentElement.scrollTop || document.body.scrollTop;
+            var pageHeight=document.documentElement.clientHeight || document.body.clientHeight;
+            var lastTop=ccontent[ccontent.length-1].offsetTop;
+            if (scrollTop + pageHeight > lastTop){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        function imgLocation(parent,content){
+            var cparent=document.getElementById(parent);
+            var ccontent =getChildElement(cparent,content);
+            console.log(ccontent);
+            var imgW=ccontent[0].offsetWidth;
+            var num=parseInt(document.documentElement.clientWidth/imgW);
+            cparent.style.cssText="width:"+imgW*num+"px;margin:0 auto";
+            var boxHeightArr=[];
+            for(var i= 0,len=ccontent.length;i<len;i++){
+                if(i<num){
+                    boxHeightArr[i]=ccontent[i].offsetHeight;
+                }else{
+                    var minHeight=getMinHeight(boxHeightArr);
+                    var minIndex=getMinIndex(boxHeightArr,minHeight);
+                    ccontent[i].style.cssText=
+                            "position:absolute;top:"+minHeight+"px;left:"+imgW*minIndex+"px;";
+                    boxHeightArr[minIndex]=boxHeightArr[minIndex]+ccontent[i].offsetHeight;
+                }
+            }
+
+            console.log(minIndex);
+            console.log(boxHeightArr);
+        }
+
+        function getMinIndex(arr,min){
+            for(var i= 0,len=arr.length;i<len;i++){
+                if(arr[i]==min){
+                    return i;
+                }
+            }
+        }
+
+        function getMinHeight(arr){
+            var len=arr.length;
+            for(var i= 0,ret = arr[0];i < len;i++){
+               ret = Math.min(ret,arr[i]);
+            }
+            return ret;
+        }
+
+        function getChildElement(parent,content){
+            var contentArr=[];
+            var allcontent=parent.getElementsByTagName('*');
+            for(var i= 0,len=allcontent.length;i<len;i++){
+                if(allcontent[i].className==content){
+                    contentArr.push(allcontent[i]);
+                }
+            }
+            return contentArr;
+        }
+    </script>
+</body>
+</html>

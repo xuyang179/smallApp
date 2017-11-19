@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content=" initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>手机相册开发</title>
+    <!--<link rel="stylesheet" href="css/reset.css"/>-->
+    <style>
+        body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
+            margin:0;
+            padding:0;
+        }
+        table {border-collapse:collapse;border-spacing:0;}
+        fieldset,img { border:0;}
+        address,caption,cite,code,dfn,em,strong,th,var {font-style:normal;
+            font-weight:normal;}
+        ol,ul {list-style:none;}
+        caption,th {text-align:left;}
+        h1,h2,h3,h4,h5,h6 {font-size:100%;font-weight:normal;}
+        q:before,q:after {content:'';}
+        abbr,acronym { border:0;}
+        body{
+            background:#333;
+        }
+        header{
+            position: fixed;
+            top:0;left:0;
+            width:3.75rem;
+            height:0.4rem;
+            z-index:999;
+        }
+        .section{
+            width:3.75rem;
+            background:#000000;
+            margin-top:0.4rem;
+        }
+        .hUl{
+            width:3.75rem;
+            height:0.4rem;
+            color:#fff;
+            font-size:0.14rem;
+            background:#000;
+
+        }
+        .hUl li{
+            display: inline-block;
+            width:33.3%;
+            height:0.4rem;
+            line-height:0.41rem;
+            text-align: center;
+
+
+        }
+        .bUl{
+            position:relative;
+            width:100%;
+
+        }
+        .bUl li{
+            position:absolute;
+            box-sizing:border-box;
+            width:1.25rem;
+            height:1.25rem;
+            border:1px solid #000;
+            background-repeat: no-repeat;
+            background-position:center;
+            background-size:cover;
+            -webkit-transition: left 0.5s, top 0.5s ;
+            -moz-transition: left 0.5s, top 0.5s ;
+            -ms-transition: left 0.5s, top 0.5s ;
+            -o-transition: left 0.5s, top 0.5s ;
+            transition: left 0.5s, top 0.5s ;
+
+        }
+    </style>
+    <script>
+        (function () {
+            reSize();
+            function reSize() {
+                var deviceWidth = document.documentElement.clientWidth;
+                document.documentElement.style.fontSize = (deviceWidth / 3.75) + 'px';
+            }
+
+            function throttle(method, context) {
+                clearTimeout(method.tId);
+                method.tId = setTimeout(function () {
+                            method.call(context);
+                        }
+                        , 500)
+            }
+
+            window.onresize = function () {
+                throttle(reSize, window);
+            };
+        })();
+    </script>
+</head>
+<body>
+    <header>
+        <ul class="hUl">
+            <li class="btn">删除</li><!--
+            --><li>手机相册</li><!--
+            --><li class="btn">选择</li>
+        </ul>
+    </header>
+    <div class="section">
+        <ul class="bUl" id="bUl">
+            <li style="background:url(images/first/1.jpg)"></li>
+        </ul>
+    </div>
+
+    <script>
+        var oUl=document.getElementById('bUl');
+        var aLi=oUl.getElementsByTagName('li');
+        var html='';
+        for (var i= 1;i<=16;i++){
+            html+='<li style="background-image:url(images/first/'+i+'.jpg)"></li>'
+        }
+        oUl.innerHTML=html;
+
+        //1定位图片
+        position();
+        function position(){
+            for(var i= 0,l=aLi.length;i<l;i++ ){
+                aLi[i].style.top=Math.floor(i/3)*1.25+'rem';
+                aLi[i].style.left=i%3*1.25+'rem';
+            }
+        }
+        //2选者按钮
+        var mark=true;
+        var remove=[];
+        var btn=document.getElementsByClassName('btn');
+        btn[1].addEventListener('touchend',select,false);
+        btn[0].style.visibility='hidden';
+        function select(){
+            if(mark){
+                btn[1].innerHTML="取消";
+                btn[0].style.visibility='visible';
+                for(var i= 0,l=aLi.length;i<l;i++){
+                    aLi[i].onoff=true;
+                    aLi[i].addEventListener("touchend",selected,false);
+                }
+            }else{
+                btn[1].innerHTML="选择";
+                btn[0].style.visibility='hidden';
+                for(var j= 0,ln=aLi.length;j<ln;j++){
+                    aLi[j].removeEventListener("touchend",selected,false);
+                    aLi[j].style.opacity=1;
+                }
+                remove.length=0;
+
+            }
+            mark=!mark;
+        }
+        //3选择图片
+        function selected(){
+            for(var j= 0,ln=aLi.length;j<ln;j++){
+                aLi[j].index=j;
+            }
+            if(this.onoff){
+                remove.push(this.index);
+                remove.sort(function(a,b){return a-b});
+                this.style.opacity=0.3;
+            }else{
+                this.style.opacity=1;
+                for(var i= 0,l=remove.length;i<l;i++){
+                    if(this.index==remove[i]){
+                        remove.splice(i,1);
+                    }
+                }
+            }
+            this.onoff=!this.onoff;
+            console.log(remove);
+        }
+        //4删除图片
+        btn[0].addEventListener("touchend",delected,false);
+        function delected(){
+            for(var i= 0,ln=remove.length;i<ln;i++){
+                oUl.removeChild(aLi[remove.pop()]);
+            }
+            position();
+        }
+
+    </script>
+</body>
+</html>

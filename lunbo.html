@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/reset.css"/>
+    <style>
+        #box{
+            width:1000px;
+            height:400px;
+            border:1px solid #333;
+            margin:50px auto 0;
+            position:relative;
+        }
+        ul{
+
+        }
+        li{
+            position:absolute;
+            background:#0000ff;
+            transition: all 0.3s ease-out;
+        }
+        .pic1{
+            width:200px;
+            height:100px;
+            top:0px;
+            left:0px;
+            opacity: 0;
+            z-index:5;
+        }
+        .pic2{
+            width:320px;
+            height:140px;
+            top:130px;
+            left:140px;
+            opacity: 0.8;
+            z-index:7;
+        }
+        .pic3{
+            width:400px;
+            height:200px;
+            top:100px;
+            left:200px;
+            opacity: 0.9;
+            z-index:9;
+        }
+        .pic4{
+            width:480px;
+            height:260px;
+            top:70px;
+            left:260px;
+            opacity: 1;
+            z-index:10;
+        }
+        .pic5{
+            width:400px;
+            height:200px;
+            top:100px;
+            left:400px;
+            opacity: 0.9;
+            z-index:8;
+        }
+        .pic6{
+            width:320px;
+            height:140px;
+            top:130px;
+            left:540px;
+            opacity: 0.8;
+            z-index:7;
+        }
+        .pic7{
+            width:200px;
+            height:100px;
+            top:0px;
+            left:800px;
+            opacity: 0;
+            z-index:5;
+        }
+        .pic8{
+            width:100px;
+            height:50px;
+            top:-50px;
+            left:400px;
+            opacity: 0;
+            z-index:4;
+        }
+        img{
+            width:100%;
+            height:100%;
+            background:#0000ff;
+        }
+        .btn{
+            width:60px;
+            height:60px;
+            border-radius: 50%;
+            position: absolute;
+            z-index:99;
+            background:rgba(255,255,255,0.8);
+            border:none;
+            outline: none;
+            top:170px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="box">
+        <button class="btn" style="left:230px;">左</button>
+        <button class="btn" style="right:230px;">右</button>
+        <ul>
+            <li class="pic1">
+                <a href="javascript:;">
+                    <img src="images/three/1.png" alt=""/>
+                </a>
+            </li>
+            <li class="pic2">
+                <a href="javascript:;">
+                    <img src="images/three/2.png" alt=""/>
+                </a>
+            </li>
+            <li class="pic3">
+                <a href="javascript:;">
+                    <img src="images/three/3.png" alt=""/>
+                </a>
+            </li>
+            <li class="pic4">
+                <a href="javascript:;">
+                    <img src="images/three/4.png" alt=""/>
+                </a>
+            </li>
+            <li class="pic5">
+                <a href="javascript:;">
+                    <img src="images/three/1.png" alt=""/>
+                </a>
+            </li>
+            <li class="pic6">
+                <a href="javascript:;">
+                    <img src="images/three/2.png" alt=""/>
+                </a>
+            </li>
+            <li class="pic7">
+                <a href="javascript:;">
+                    <img src="images/three/4.png" alt=""/>
+                </a>
+            </li>
+            <li class="pic8">
+                <a href="javascript:;">
+                    <img src="images/three/3.png" alt=""/>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <script>
+        var btn=document.getElementsByClassName('btn');
+        var uBox=document.getElementById('box');
+        var aLi=uBox.getElementsByTagName('li');
+        var arrL=[];
+        for(var i= 0,l=aLi.length;i<l;i++){
+            var lw=getComputedStyle(aLi[i]).width;
+            var lh=getComputedStyle(aLi[i]).height;
+            var lt=getComputedStyle(aLi[i]).top;
+            var ll=getComputedStyle(aLi[i]).left;
+            var lo=getComputedStyle(aLi[i]).opacity;
+            var lz=getComputedStyle(aLi[i]).zIndex;
+            arrL.push({width:lw,height:lh,top:lt,left:ll,opacity:lo,zIndex:lz});
+        }
+        function toRight(){
+            arrL.push(arrL[0]);
+            arrL.shift();
+            addStyle(aLi,arrL);
+        }
+        var timer=setInterval(toRight,1000);
+        btn[1].onclick=toRight;
+        btn[1].onmouseenter=function(){
+            clearInterval(timer);
+        };
+        btn[1].onmouseleave=function(){
+            timer=setInterval(toRight,1000);
+        };
+        btn[0].onmouseenter=function(){
+            clearInterval(timer);
+        };
+        btn[0].onmouseleave=function(){
+            timer=setInterval(toRight,1000);
+        };
+        btn[0].onclick=function(){
+            arrL.unshift(arrL[arrL.length-1]);
+            arrL.pop();
+            addStyle(aLi,arrL);
+        };
+        function addStyle(arr1,arr2){
+            for(var j= 0,l=arr1.length;j<l;j++){
+                arr1[j].style.width=arr2[j].width;
+                arr1[j].style.height=arr2[j].height;
+                arr1[j].style.top=arr2[j].top;
+                arr1[j].style.left=arr2[j].left;
+                arr1[j].style.opacity=arr2[j].opacity;
+                arr1[j].style.zIndex=arr2[j].zIndex;
+            }
+        }
+
+
+    </script>
+</body>
+</html>

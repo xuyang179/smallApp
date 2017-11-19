@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<style>
+    *{
+        padding:0;
+        margin:0;
+    }
+    body{
+        overflow: hidden;
+        width:100%;
+        height:100%;
+        background:#333;
+    }
+    .balloon{
+        width:100px;
+        height:136px;
+        background:url(images/four/balloon.png) no-repeat;
+        background-size:100%;
+        position:absolute;
+    }
+</style>
+<body>
+
+<!--<div class="balloon">-->
+
+<!--</div>-->
+
+<script>
+    init(10);
+    function init(num){
+        var wW=window.innerWidth,
+            wH=window.innerHeight;
+        var h=136;
+        var w=100;
+        console.log(wH);
+        var timer=null;
+        for(var i=0;i<num;i++){
+            create(wW,wH,h,w);
+        }
+        var aballoon=document.querySelectorAll('.balloon');
+        setInterval(function(){
+            for(var i= 0,len=aballoon.length;i<len;i++){
+                aballoon[i].style.top=aballoon[i].offsetTop-aballoon[i].speed+'px';
+            }
+        },30);
+        document.body.addEventListener('click',function(e){
+            e = e||event;
+            var target= e.target;
+            this.timer=setInterval(function(){
+                del.call(this);
+            }.bind(e.target),30)
+
+        },false);
+
+    }
+    function del(){
+        if(parseInt(this.style.width)<20){
+            clearInterval(this.timer);
+            this.parentNode.removeChild(this);
+        }
+        this.style.width=this.offsetWidth-10+'px';
+        this.style.height=this.offsetHeight-10+'px';
+
+    }
+    function create(wW,wH,h,w){
+        var left=~~(Math.random()*wW)-w;
+        left=Math.max(0,left);
+        var  div=document.createElement('div');
+        div.className='balloon';
+        div.style.top=wW-h+'px';
+        div.style.left=left+'px';
+        div.speed=Math.random()*8+1;
+        document.body.appendChild(div);
+    }
+</script>
+</body>
+</html>

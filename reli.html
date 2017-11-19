@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/reset.css"/>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        #box{
+            width:422px;
+            margin:30px auto 0;
+            border:1px solid #333;
+        }
+        ul{
+            overflow: hidden;
+        }
+        li{
+            float:left;
+            width:60px;
+            height:30px;
+            line-height:30px;
+            text-align:center;
+        }
+        .top{
+            width:420px ;
+            height:45px;
+            border-bottom:1px solid #333;
+            line-height:45px;
+        }
+        #selYear{
+            width:130px;
+            height:30px;
+            margin-left:10px;
+
+
+        }
+        #selMonth{
+            width:130px;
+            height:30px;
+            margin-left:10px;
+        }
+        #btn1{
+            width:80px;
+            height:30px;
+            /*line-height:30px;*/
+            margin-left:10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div class="top">
+            <select name="year" id="selYear">
+                <option value="">--请选择年份--</option>
+            </select>
+            <select name="month" id="selMonth">
+                <option value="">--请选择月份--</option>
+            </select>
+            <button id="btn1">查询</button>
+        </div>
+        <div class="dayList">
+            <ul>
+                <li>日</li>
+                <li>一</li>
+                <li>二</li>
+                <li>三</li>
+                <li>四</li>
+                <li>五</li>
+                <li>六</li>
+            </ul>
+            <ul id="monBox">
+
+            </ul>
+        </div>
+    </div>
+    <script>
+        var oUl=document.getElementById('monBox');
+        var html="";
+        var oBtn=document.getElementById('btn1');
+        var arr=[31,28,31,30,31,30,31,31,30,31,30,31];
+        for (var i=0;i<42;i++){
+            html+='<li></li>';
+        }
+        oUl.innerHTML=html;
+        var aLi=oUl.getElementsByTagName('li');
+        var year=document.getElementById('selYear'),
+            month=document.getElementById('selMonth');
+
+        forEack(function(i){
+            var option=document.createElement('option');
+            option.value=i;
+            option.innerHTML=i;
+            year.appendChild(option);
+        },50,1970);
+        forEack(function(i){
+            var option=document.createElement('option');
+            option.value=i;
+            option.innerHTML=i;
+            month.appendChild(option);
+        },12,1);
+
+        oBtn.onclick=function(){
+            forEack(function(i){
+                aLi[i].innerHTML='';
+            },aLi.length);
+            var y=year.value,m=month.value;
+            if(y==''||m==''){
+                alert('请选择年份和月份');
+            }else{
+                var date=new Date(y,m-1,1);
+                var day=date.getDay();
+                if((y%4==0&&y%100!=0)||y%400==0){
+                    arr[1]=29;
+                }else{
+                    arr[1]=28;
+                }
+                forEack(function(i){
+                    aLi[i+day].innerHTML=i+1
+                },arr[m-1])
+            }
+        };
+
+
+        function forEack(callback,length,firstNum){
+            var i = firstNum ? firstNum : 0;
+            var len=length+i;
+            for(;i<len;i++){
+                callback(i);
+            }
+        }
+    </script>
+</body>
+</html>

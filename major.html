@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
+            margin:0;
+            padding:0;
+        }
+        table {border-collapse:collapse;border-spacing:0;}
+        fieldset,img { border:0;}
+        address,caption,cite,code,dfn,em,strong,th,var {font-style:normal;
+            font-weight:normal;}
+        ol,ul {list-style:none;}
+        caption,th {text-align:left;}
+        h1,h2,h3,h4,h5,h6 {font-size:100%;font-weight:normal;}
+        q:before,q:after {content:'';}
+        abbr,acronym { border:0;}
+
+        .box{
+            width:910px;
+            margin: 50px auto 0;
+            /*border:1px solid #000000;*/
+        }
+        .box ul{
+            overflow: hidden;
+        }
+        .box li{
+            width:216px;
+            height:169px;
+            position:relative;
+            float:left;
+            margin-right:10px;
+            margin-bottom:10px;
+            overflow: hidden;
+        }
+        .box span{
+            display: block;
+            width:216px;
+            height:169px;
+            position:absolute;
+            top:0;left:0;
+            background-repeat: no-repeat;
+            background-position:0 0;
+        }
+        .picUp{
+            background-image:url(images/two/majors.png);
+            z-index:2;
+        }
+        .picDown{
+            background-image:url(images/two/majors_back.jpg);
+            z-index: 1;
+        }
+        /*从上面移入*/
+        .from-top{
+            z-index:3;
+            -webkit-animation: from-top 0.3s ease-out;
+            -o-animation: from-top 0.3s ease-out;
+            animation: from-top 0.3s ease-out;
+            transform-origin: 0 0;
+        }
+        @keyframes from-top {
+            0% {
+                /*z-index:3;*/
+                -webkit-transform: rotate(-90deg);
+                -moz-transform: rotate(-90deg);
+                -ms-transform: rotate(-90deg);
+                -o-transform: rotate(-90deg);
+                transform: rotate(-90deg);
+            }
+            100%{
+
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+        }
+        /*从上面移出*/
+        .to-top{
+            z-index:1;
+            -webkit-animation: to-top 0.3s ease-out;
+            -o-animation: to-top 0.3s ease-out;
+            animation: to-top 0.3s ease-out;
+            transform-origin: 0 0;
+        }
+        @keyframes to-top {
+            0% {
+                z-index:3;
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100%{
+                z-index:3;
+                -webkit-transform: rotate(-90deg);
+                -moz-transform: rotate(-90deg);
+                -ms-transform: rotate(-90deg);
+                -o-transform: rotate(-90deg);
+                transform: rotate(-90deg);
+            }
+        }
+        /*从下面移入*/
+        .from-down{
+            z-index:3;
+            -webkit-animation: from-down 0.3s ease-out;
+            -o-animation: from-down 0.3s ease-out;
+            animation: from-down 0.3s ease-out;
+            transform-origin: 0 100%;
+        }
+        @keyframes from-down {
+            0% {
+                -webkit-transform: rotate(90deg);
+                -moz-transform: rotate(90deg);
+                -ms-transform: rotate(90deg);
+                -o-transform: rotate(90deg);
+                transform: rotate(90deg);
+            }
+            100%{
+
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+        }
+        /*从下面移出*/
+        .to-down{
+            z-index:1;
+            -webkit-animation: to-down 0.3s ease-out;
+            -o-animation: to-down 0.3s ease-out;
+            animation: to-down 0.3s ease-out;
+            transform-origin: 0 100%;
+        }
+        @keyframes to-down {
+            0% {
+                z-index:3;
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100%{
+                z-index:3;
+                -webkit-transform: rotate(90deg);
+                -moz-transform: rotate(90deg);
+                -ms-transform: rotate(90deg);
+                -o-transform: rotate(90deg);
+                transform: rotate(90deg);
+            }
+        }
+        /*从左面移入*/
+        .from-left{
+            z-index:3;
+            -webkit-animation: from-left 0.3s ease-out;
+            -o-animation: from-left 0.3s ease-out;
+            animation: from-left 0.3s ease-out;
+            transform-origin: 0 100%;
+        }
+        @keyframes from-left {
+            0% {
+                /*z-index:3;*/
+                -webkit-transform: rotate(-90deg);
+                -moz-transform: rotate(-90deg);
+                -ms-transform: rotate(-90deg);
+                -o-transform: rotate(-90deg);
+                transform: rotate(-90deg);
+            }
+            100%{
+
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+        }
+        /*从左面移出*/
+        .to-left{
+            z-index:1;
+            -webkit-animation: to-left 0.3s ease-out;
+            -o-animation: to-left 0.3s ease-out;
+            animation: to-left 0.3s ease-out;
+            transform-origin: 0 100%;
+        }
+        @keyframes to-left {
+            0% {
+                z-index:3;
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100%{
+                z-index:3;
+                -webkit-transform: rotate(-90deg);
+                -moz-transform: rotate(-90deg);
+                -ms-transform: rotate(-90deg);
+                -o-transform: rotate(-90deg);
+                transform: rotate(-90deg);
+            }
+        }
+        /*从右面移入*/
+        .from-right{
+            z-index:3;
+            -webkit-animation: from-right 0.3s ease-out;
+            -o-animation: from-right 0.3s ease-out;
+            animation: from-right 0.3s ease-out;
+            transform-origin: 100% 100%;
+        }
+        @keyframes from-right {
+            0% {
+                /*z-index:3;*/
+                -webkit-transform: rotate(90deg);
+                -moz-transform: rotate(90deg);
+                -ms-transform: rotate(90deg);
+                -o-transform: rotate(90deg);
+                transform: rotate(90deg);
+            }
+            100%{
+
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+        }
+        /*从右面移出*/
+        .to-right{
+            z-index:1;
+            -webkit-animation: to-right 0.3s ease-out;
+            -o-animation: to-right 0.3s ease-out;
+            animation: to-right 0.3s ease-out;
+            transform-origin: 100% 100%;
+        }
+        @keyframes to-right {
+            0% {
+                z-index:3;
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100%{
+                z-index:3;
+                -webkit-transform: rotate(90deg);
+                -moz-transform: rotate(90deg);
+                -ms-transform: rotate(90deg);
+                -o-transform: rotate(90deg);
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <ul>
+            <li>
+                <a href="#">
+                    <span class="picUp"></span>
+                    <span class="picDown"></span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+    <script>
+        var oUl=document.getElementsByTagName('ul')[0];
+        var html='',numX= 4,numY=3;
+        var aLi=oUl.getElementsByTagName('li');
+        var aUp=oUl.getElementsByClassName('picUp');
+        var w=aLi[0].clientWidth;
+        var h=aLi[0].clientHeight;
+        var aDown=oUl.getElementsByClassName('picDown');
+        for(var i=0;i<numX*numY;i++){
+            html+='<li>'+
+                    '<a href="#">'+
+                        '<span class="picUp"></span>'+
+                        '<span class="picDown"></span>'+
+                    '</a>'+
+                    '</li>'
+        }
+        oUl.innerHTML=html;
+
+        for(var i=0;i<numX*numY;i++){
+            i%=numX*numY;
+            aUp[i].style.backgroundPosition=''+(-i%numX)*(w+1)+'px'+' '+(-parseInt(i/numX))*(h+1) +'px'
+            aDown[i].style.backgroundPosition=''+(-i%numX)*(w+1)+'px'+' '+(-parseInt(i/numX))*(h+1) +'px'
+        }
+        for(var i=0;i<numX*numY;i++){
+            aLi[i].onmouseenter=function(e){
+                e = e||event;
+                var y= e.offsetY,x= e.offsetX;
+                var st=y;
+                var sd=h-y;
+                var sl=x;
+                var sr=w-x;
+                var mins=Math.min(st,sd,sl,sr);
+                switch (mins){
+                    case st:
+                        this.children[0].children[1].className="from-top picDown";
+                        break;
+                    case sd:
+                        this.children[0].children[1].className="from-down picDown";
+                        break;
+
+                    case sl:
+                        this.children[0].children[1].className="from-left picDown";
+                        break;
+
+                    case sr:
+                        this.children[0].children[1].className="from-right picDown";
+                        break;
+
+                }
+            };
+            aLi[i].onmouseleave=function(e){
+                e = e||event;
+                var y= e.offsetY,x= e.offsetX;
+                var st=y;
+                var sd=h-y;
+                var sl=x;
+                var sr=w-x;
+                var mins=Math.min(st,sd,sl,sr);
+                switch (mins){
+                    case st:
+                        this.children[0].children[1].className="to-top picDown";
+                        break;
+                    case sd:
+                        this.children[0].children[1].className="to-down picDown";
+                        break;
+
+                    case sl:
+                        this.children[0].children[1].className="to-left picDown";
+                        break;
+
+                    case sr:
+                        this.children[0].children[1].className="to-right picDown";
+                        break;
+
+                }
+
+            }
+
+        }
+
+    </script>
+</body>
+</html>
